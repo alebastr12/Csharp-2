@@ -57,6 +57,7 @@ namespace asteroids
             Draw();
             Update();
         }
+
         /// <summary>
         /// Загрузка экземпляров в коллекцию
         /// </summary>
@@ -73,10 +74,7 @@ namespace asteroids
                 _stars.Add(new Star(new Point(1000, rnd.Next(0, Game.Height)), new Point(-i, 0), new Size(3, 3)));
             }
             _bullet = new Bullet(new Point(0, rnd.Next(0,Game.Height-10)), new Point(5, 0), new Size(6, 2));
-            //_objs.Add(new aster(new Point(0, 0), new Point(3, 3), new Size()));
-            //_objs.Add(new Label("НАЧАЛО ИГРЫ", new Point(300, 100), new Size(30, 30)));
-            //_objs.Add(new Label("РЕКОРДЫ", new Point(300, 150), new Size(30, 30)));
-            //_objs.Add(new Label("ВЫХОД", new Point(300, 200), new Size(30, 30)));
+            
 
         }
         /// <summary>
