@@ -1,0 +1,9 @@
+C:\Users\Алкесандр\source\repos\Csharp-2\lesson1\asteroids\bin\Debug\asteroids.exe.config
+C:\Users\Алкесандр\source\repos\Csharp-2\lesson1\asteroids\bin\Debug\asteroids.exe
+C:\Users\Алкесандр\source\repos\Csharp-2\lesson1\asteroids\bin\Debug\asteroids.pdb
+C:\Users\Алкесандр\source\repos\Csharp-2\lesson1\asteroids\obj\Debug\asteroids.csprojAssemblyReference.cache
+C:\Users\Алкесандр\source\repos\Csharp-2\lesson1\asteroids\obj\Debug\asteroids.Properties.Resources.resources
+C:\Users\Алкесандр\source\repos\Csharp-2\lesson1\asteroids\obj\Debug\asteroids.csproj.GenerateResource.cache
+C:\Users\Алкесандр\source\repos\Csharp-2\lesson1\asteroids\obj\Debug\asteroids.csproj.CoreCompileInputs.cache
+C:\Users\Алкесандр\source\repos\Csharp-2\lesson1\asteroids\obj\Debug\asteroids.exe
+C:\Users\Алкесандр\source\repos\Csharp-2\lesson1\asteroids\obj\Debug\asteroids.pdb
