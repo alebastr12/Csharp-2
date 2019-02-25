@@ -43,8 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseWorker.cs" />
+    <Compile Include="FixWorker.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TimeWorker.cs" />
+    <Compile Include="WorkerArray.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

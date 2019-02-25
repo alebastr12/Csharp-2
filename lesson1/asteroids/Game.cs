@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Media;
 
 namespace asteroids
 {
@@ -16,10 +17,15 @@ namespace asteroids
         // Ширина и высота игрового поля
         public static int Width { get; set; }
         public static int Height { get; set; }
-        public static List<BaseObject> _objs;
-        
+        public static List<BaseObject> _asteroids;
+        public static List<BaseObject> _stars;
+        private static Random rnd = new Random();
+        private static int r = 5; //Скорость движения элементов
+        private static Bullet _bullet;
+
         static Game()
         {
+            
         }
         public static void Init(Form form)
         {
@@ -33,6 +39,10 @@ namespace asteroids
             g = form.CreateGraphics(); // Создаем объект (поверхность рисования) и связываем его с формой
             Width = form.ClientSize.Width;
             Height = form.ClientSize.Height;
+            if (Width>1000 || Width<0 || Height>1000 || Height < 0)
+            {
+                throw new ArgumentOutOfRangeException($"Недопустимые значения ширины или высоты окна.");
+            }
             Load();
             // Связываем буфер в памяти с графическим объектом, чтобы рисовать в буфере
             Buffer = _context.Allocate(g, new Rectangle(0, 0, Width, Height));
@@ -52,19 +62,21 @@ namespace asteroids
         /// </summary>
         public static void Load()
         {
-            _objs = new List<BaseObject>(50);
-            for (int i = 0; i < 25; i++)
+            _asteroids = new List<BaseObject>();
+            _stars = new List<BaseObject>();
+            for (int i = 0; i < 10; i++)
             {
-                _objs.Add(new BaseObject(new Point(600, i * 30), new Point(30 - i, 30 - i), new Size(i + 5, i + 5)));
+                _asteroids.Add(new aster(new Point(Game.Width, rnd.Next(0,Game.Height)), new Point(-rnd.Next(1,8), r), new Size()));
             }
-            for (int i = 0; i < 25; i++)
+            for (int i = 0; i < 50; i++)
             {
-                _objs.Add(new Star(new Point(600, i * 20), new Point(-i, 0), new Size(5, 5)));
+                _stars.Add(new Star(new Point(1000, rnd.Next(0, Game.Height)), new Point(-i, 0), new Size(3, 3)));
             }
-            _objs.Add(new aster(new Point(0, 0), new Point(3, 3), new Size()));
-            _objs.Add(new Label("НАЧАЛО ИГРЫ", new Point(300, 100), new Size(30, 30)));
-            _objs.Add(new Label("РЕКОРДЫ", new Point(300, 150), new Size(30, 30)));
-            _objs.Add(new Label("ВЫХОД", new Point(300, 200), new Size(30, 30)));
+            _bullet = new Bullet(new Point(0, rnd.Next(0,Game.Height-10)), new Point(5, 0), new Size(6, 2));
+            //_objs.Add(new aster(new Point(0, 0), new Point(3, 3), new Size()));
+            //_objs.Add(new Label("НАЧАЛО ИГРЫ", new Point(300, 100), new Size(30, 30)));
+            //_objs.Add(new Label("РЕКОРДЫ", new Point(300, 150), new Size(30, 30)));
+            //_objs.Add(new Label("ВЫХОД", new Point(300, 200), new Size(30, 30)));
 
         }
         /// <summary>
@@ -74,8 +86,11 @@ namespace asteroids
         {
             Buffer.Graphics.Clear(Color.Black);
             Buffer.Render();
-            foreach (BaseObject obj in _objs)
+            foreach (BaseObject obj in _asteroids)
                 obj.Draw();
+            foreach (BaseObject obj in _stars)
+                obj.Draw();
+            _bullet.Draw();
             Buffer.Render();
         }
         /// <summary>
@@ -83,8 +98,19 @@ namespace asteroids
         /// </summary>
         public static void Update()
         {
-            foreach (BaseObject obj in _objs)
+            foreach (BaseObject obj in _stars)
                 obj.Update();
+            for (int i = 0; i < _asteroids.Count; i++)
+            {
+                _asteroids[i].Update();
+                if (_asteroids[i].Collision(_bullet))
+                {
+                    SystemSounds.Hand.Play();
+                    _bullet = new Bullet(new Point(0, rnd.Next(0, Game.Height-10)), new Point(5, 0), new Size(6, 2));
+                    _asteroids[i] = new aster(new Point(Game.Width, rnd.Next(0, Game.Height)), new Point(-rnd.Next(1, 8), r), new Size());
+                }
+            }
+            _bullet.Update();
         }
 
     }

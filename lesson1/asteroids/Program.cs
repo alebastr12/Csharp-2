@@ -14,13 +14,17 @@ namespace asteroids
         [STAThread]
         static void Main()
         {
-            Form form = new Form();
-            form.Width = 800;
-            form.Height = 600;
+            Form form = new Form
+            {
+                Width =  800,//Screen.PrimaryScreen.Bounds.Width,
+                Height = 600//Screen.PrimaryScreen.Bounds.Height
+            };
             Game.Init(form);
             form.Show();
+            Game.Load();
             Game.Draw();
             Application.Run(form);
+
         }
     }
 }
