@@ -32,10 +32,11 @@ namespace asteroids
         {
             Pos.X = Pos.X + Dir.X;
         }
-        public bool isScreenOut()
+        public override bool isScreenOut()
         {
             return (Pos.X > Game.Width);
         }
+        
     }
 
 }

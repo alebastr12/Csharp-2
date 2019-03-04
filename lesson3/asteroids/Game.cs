@@ -21,13 +21,14 @@ namespace asteroids
         // Ширина и высота игрового поля
         public static int Width { get; set; }
         public static int Height { get; set; }
-        public static List<BaseObject> _asteroids;
+        public static List<aster> _asteroids;
         public static List<BaseObject> _stars;
         public static List<BaseObject> _bullets;
         public static Medicine medic;
         private static Random rnd;
         private static int medicTimeout;
-        private static int r = 5; //Скорость движения элементов
+        private static int r = 5; //Скорость движения астеройдов
+        private static int countAster = 10; //Начальное количество астеройдов
         private static int score = 0;
         private static Ship _ship;
         private static Timer timer;
@@ -108,12 +109,12 @@ namespace asteroids
         /// </summary>
         public static void Load()
         {
-            _asteroids = new List<BaseObject>();
+            _asteroids = new List<aster>();
             _stars = new List<BaseObject>();
             _bullets = new List<BaseObject>();
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < countAster; i++)
             {
-                _asteroids.Add(new aster(new Point(Game.Width, rnd.Next(0,Game.Height)), new Point(-rnd.Next(4,12), r), new Size()));
+                _asteroids.Add(new aster(new Point(Game.Width, rnd.Next(0,Game.Height)), new Point(-rnd.Next(r,r+7), r), new Size()));
             }
             for (int i = 0; i < 50; i++)
             {
@@ -122,6 +123,7 @@ namespace asteroids
             //_bullet = new Bullet(new Point(0, rnd.Next(0,Game.Height-10)), new Point(5, 0), new Size(6, 2));
                    
         }
+        
         /// <summary>
         /// Метод отрисовки фона и всех членов колекции _objs
         /// </summary>
@@ -149,16 +151,24 @@ namespace asteroids
         /// </summary>
         public static void Update()
         {
-            int count;
             medic?.Update();
             foreach (BaseObject obj in _stars)
                 obj.Update();
             _bullets.RemoveAll((e)=>(e as Bullet).isScreenOut()); //Удаляем элементы за пределами экрана
+            _asteroids.RemoveAll(e => (e as aster).isScreenOut()); //Астеройды теперь тоже удаляем
+            if (_asteroids.Count == 0) //Если астеройды кончились, то добавляем новые
+            {
+                countAster++;
+                r += 2;
+                for (int i = 0; i < countAster; i++)
+                {
+                    _asteroids.Add(new aster(new Point(Game.Width, rnd.Next(0, Game.Height)), new Point(-rnd.Next(r, r + 7), r), new Size()));
+                }
+            }
             for (int i = 0; i < _asteroids.Count; i++)
             {
                 _asteroids[i].Update();
-                count = _bullets.Count;
-                for (int j = 0; j < count; j++)
+                for (int j = 0; j < _bullets.Count; j++)
                 {
                     if (_asteroids[i].Collision(_bullets[j]))
                     {
@@ -166,9 +176,9 @@ namespace asteroids
                         myDelegate?.Invoke("Столкновение пули с астеройдом...");
                         SystemSounds.Hand.Play();
                         _bullets.Remove(_bullets[j]);
-                        count--;
+                        _asteroids[i].ToOutScreen();
                         j--;
-                        _asteroids[i] = new aster(new Point(Game.Width, rnd.Next(0, Game.Height)), new Point(-rnd.Next(4, 12), r), new Size());
+                        //_asteroids[i] = new aster(new Point(Game.Width, rnd.Next(0, Game.Height)), new Point(-rnd.Next(4, 12), r), new Size());
                     }
                 }
                 if (medic?.Collision(_ship) ?? false)
@@ -207,7 +217,7 @@ namespace asteroids
             }
         }
         /// <summary>
-        /// Методдля вывода информации в консоль
+        /// Метод для вывода информации в консоль
         /// </summary>
         /// <param name="message">Сообщение</param>
         public static void LogIntoConsole(string message)
