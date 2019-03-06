@@ -33,11 +33,20 @@ namespace asteroids
            
             Pos.X = Pos.X + Dir.X;
             Pos.Y = Pos.Y + Dir.Y;
-            if (Pos.X < 0) Pos.X = Game.Width;
+            //if (Pos.X < 0) Pos.X = Game.Width;
             if (Pos.Y < 0) Dir.Y = -Dir.Y;
             if (Pos.Y > Game.Height) Dir.Y = -Dir.Y;
             srcRect.X = Pos.X; //Обновляем данные в объекте прямоугольника
             srcRect.Y = Pos.Y;
+        }
+        /// <summary>
+        /// Метод для удаления астеройда за экран
+        /// </summary>
+        public void ToOutScreen()
+        {
+            Pos.X = -100;
+            Dir.X = 0;
+            Dir.Y = 0;
         }
     }
 }

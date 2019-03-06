@@ -36,6 +36,9 @@ namespace asteroids
 
         public abstract void Update();
 
-
+        public virtual bool isScreenOut()
+        {
+            return (Pos.X < 0);
+        }
     }
 }

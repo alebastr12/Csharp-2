@@ -25,9 +25,6 @@ namespace asteroids
         {
             Pos.X = Pos.X - Dir.X;
         }
-        public bool isScreenOut()
-        {
-            return (Pos.X < 0);
-        }
+        
     }
 }
