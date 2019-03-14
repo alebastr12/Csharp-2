@@ -1,0 +1,42 @@
+﻿<Window x:Class="DBEmployee.EditEmp"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DBEmployee"
+        mc:Ignorable="d"
+        Title="EditEmp" Height="450" Width="800" Loaded="Window_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="Имя" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0"/>
+        <TextBlock Text="Фамилия" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1"/>
+        <TextBlock Text="Должность" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="0" Grid.Row="2"/>
+        <TextBlock Text="Дата рождения" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="0" Grid.Row="3"/>
+        <TextBlock Text="Департамент" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="0" Grid.Row="4"/>
+        <TextBox x:Name="TextName" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="0" Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+        <TextBox x:Name="TextSurame" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="1" Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+        <TextBox x:Name="TextPosition" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="2" Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+        <TextBox x:Name="TextDate" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="3" Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+        <ComboBox x:Name="DepBox" Margin="2,2,2,2" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding DepName}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <Button x:Name="Save" Grid.Column="1" Grid.Row="5" Content="Сохранить" Margin="5" Click="Save_Click"/>
+        <Button x:Name="Cancel" Grid.Column="2" Grid.Row="5" Content="Отмена" Margin="5" Click="Cancel_Click"/>
+    </Grid>
+</Window>
