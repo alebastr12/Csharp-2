@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DBEmployee"
         mc:Ignorable="d"
-        Title="EditEmp" Height="450" Width="800" Loaded="Window_Loaded">
+        Title="EditEmp" Height="300" Width="600" Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>

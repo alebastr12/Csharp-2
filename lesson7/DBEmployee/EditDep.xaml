@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DBEmployee"
         mc:Ignorable="d"
-        Title="Редактирования департамента" Height="100" Width="300" Loaded="Window_Loaded">
+        Title="Редактирования департамента" Height="120" Width="300" Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
             <RowDefinition Height="2*"></RowDefinition>
             <RowDefinition Height="2*"></RowDefinition>
         </Grid.RowDefinitions>
@@ -16,9 +16,9 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <TextBlock Text="Название департамента" Grid.ColumnSpan="2" Grid.Row="0" Margin="1"/>
+        <TextBlock Text="Название департамента" Grid.ColumnSpan="2" Grid.Row="0" Margin="1" VerticalAlignment="Bottom"/>
         <TextBox x:Name="DepEdit" Grid.ColumnSpan="2" Margin="2,2,2,2" Grid.Row="1"/>
-        <Button x:Name="Save" Content="Сохранить" Grid.Column="0" Grid.Row="2" Click="Save_Click"/>
-        <Button x:Name="Cancel" Content="Отмена" Grid.Column="1" Grid.Row="2" Click="Cancel_Click"/>
+        <Button x:Name="Save" Content="Сохранить" Grid.Column="0" Grid.Row="2" Click="Save_Click" Margin="2"/>
+        <Button x:Name="Cancel" Content="Отмена" Grid.Column="1" Grid.Row="2" Click="Cancel_Click" Margin="2"/>
     </Grid>
 </Window>

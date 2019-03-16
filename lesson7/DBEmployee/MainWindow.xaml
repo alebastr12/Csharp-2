@@ -34,7 +34,7 @@
                 <DataGridTextColumn x:Name="fIOColumn" Binding="{Binding name}" Header="Имя" Width="Auto"/>
                 <DataGridTextColumn x:Name="birthdayColumn" Binding="{Binding surname}" Header="Фамилия" Width="Auto"/>
                 <DataGridTextColumn x:Name="emailColumn" Binding="{Binding position}" Header="Должность" Width="Auto"/>
-                <DataGridTextColumn x:Name="phoneColumn" Binding="{Binding birthday}" Header="День рождения" Width="Auto"/>
+                <DataGridTextColumn x:Name="phoneColumn" Binding="{Binding birthday}" Header="Дата рождения" Width="Auto"/>
             </DataGrid.Columns>
         </DataGrid>
         <Button x:Name="AddEmp" Margin="2,2,2,2" Content="Добавить сотрудника" Grid.Column="0" Grid.Row="3"/>
