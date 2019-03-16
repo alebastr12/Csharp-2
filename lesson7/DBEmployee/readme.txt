@@ -16,3 +16,4 @@ CREATE TABLE [dbo].[Employee]
     [depId] INT NOT NULL, 
     CONSTRAINT [FK_Employee_ToDepart] FOREIGN KEY ([depId]) REFERENCES [Deparments]([Id]) 
 )
+3. Для начального заполнения раскомментировать код в MainWindow.xaml.cs

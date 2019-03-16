@@ -38,18 +38,43 @@ namespace DBEmployee
                 DataSource = @"(LocalDB)\MSSQLLocalDB",
                 AttachDBFilename = @"C:\Users\Алкесандр\Documents\lesson7_alebastr.mdf",
                 IntegratedSecurity = true,
-                ConnectTimeout = 30
+                ConnectTimeout = 30,
+                Pooling=true
             };
             connection = new SqlConnection(connectionStringBuilder.ConnectionString);
 
             InitDBDep();
             InitDBEmp();
-            
+
             dtEmployee = new DataTable();
             dtDepartments = new DataTable();
-            
+
             adapterEmp.Fill(dtEmployee);
             adapterDep.Fill(dtDepartments);
+
+            //Коддля начального заполнения таблиц
+            //for (int i = 0; i < 100; i++)
+            //{
+            //    DataRow newRow = dtDepartments.NewRow();
+            //    newRow["DepName"] = $"Департамент {i}";
+            //    dtDepartments.Rows.Add(newRow);
+            //    adapterDep.Update(dtDepartments);
+            //    var depID = dtDepartments.Select().Where((e) => e["DepName"].Equals($"Департамент {i}")).Select((e)=>(int)e["Id"]);
+            //    for (int j = 0; j < 1000; j++)
+            //    {
+            //        newRow = dtEmployee.NewRow();
+            //        newRow["name"] = $"Имя_{j}";
+            //        newRow["surname"] = $"Фамилия_{j}";
+            //        newRow["position"] = $"Должность_{j}";
+            //        newRow["birthday"] = DateTime.Now;
+            //        newRow["depId"] = depID.First();
+            //        dtEmployee.Rows.Add(newRow);
+                    
+            //    }
+            //    adapterEmp.Update(dtEmployee);
+            //}
+
+            
 
             employeeDataGrid.DataContext = dtEmployee.DefaultView;
             DepBox.ItemsSource = dtDepartments.DefaultView;
