@@ -14,6 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MySql.Data;
+using MySql.Data.MySqlClient;
+
 
 namespace DBEmployee
 {
@@ -22,27 +25,45 @@ namespace DBEmployee
     /// </summary>
     public partial class MainWindow : Window
     {
-        SqlConnection connection;
-        SqlDataAdapter adapterEmp;
-        SqlDataAdapter adapterDep;
+        MySqlConnection connection;
+        MySqlDataAdapter adapterEmp;
+        MySqlDataAdapter adapterDep;
         DataTable dtEmployee;
         DataTable dtDepartments;
-        SqlCommand commandSelect;
+        MySqlCommand commandSelect;
+
+        
 
         public MainWindow()
         {
             InitializeComponent();
 
-            var connectionStringBuilder = new SqlConnectionStringBuilder
+            //var connectionStringBuilder = new SqlConnectionStringBuilder
+            //{
+            //    DataSource = @"(LocalDB)\MSSQLLocalDB",
+            //    //InitialCatalog= "lesson7_alebastr",
+            //    AttachDBFilename = @"C:\Users\Алкесандр\Documents\lesson7_alebastr.mdf",
+            //    IntegratedSecurity = true,
+            //    ConnectTimeout = 30,
+            //    Pooling=true
+            //};
+            //server=mydatabase.czuq04mwza1u.eu-north-1.rds.amazonaws.com;user id=root;database=mydatabase;port=3306;persistsecurityinfo=True
+            var connectionStringBuilder = new MySqlConnectionStringBuilder
             {
-                DataSource = @"(LocalDB)\MSSQLLocalDB",
-                AttachDBFilename = @"C:\Users\Алкесандр\Documents\lesson7_alebastr.mdf",
-                IntegratedSecurity = true,
-                ConnectTimeout = 30,
-                Pooling=true
+                Server = @"mydatabase.czuq04mwza1u.eu-north-1.rds.amazonaws.com",
+                //InitialCatalog= "lesson7_alebastr",
+                UserID="root",
+                Password="Y240690a",
+                Database="mydatabase",
+                //AttachDBFilename = @"C:\Users\Алкесандр\Documents\lesson7_alebastr.mdf",
+                //IntegratedSecurity = true,
+                PersistSecurityInfo=true,
+                ConnectionTimeout = 30,
+                CharacterSet = "UTF8",
+                Pooling = true
             };
-            connection = new SqlConnection(connectionStringBuilder.ConnectionString);
-
+            connection = new MySqlConnection(connectionStringBuilder.ConnectionString);
+            
             InitDBDep();
             InitDBEmp();
 
@@ -52,29 +73,37 @@ namespace DBEmployee
             adapterEmp.Fill(dtEmployee);
             adapterDep.Fill(dtDepartments);
 
-            //Коддля начального заполнения таблиц
-            //for (int i = 0; i < 100; i++)
+            //Код для начального заполнения таблиц
+
+            //for (int i = 0; i < 10; i++)
             //{
             //    DataRow newRow = dtDepartments.NewRow();
-            //    newRow["DepName"] = $"Департамент {i}";
+            //    newRow["DepName"] = $"Department_{i}";
             //    dtDepartments.Rows.Add(newRow);
             //    adapterDep.Update(dtDepartments);
-            //    var depID = dtDepartments.Select().Where((e) => e["DepName"].Equals($"Департамент {i}")).Select((e)=>(int)e["Id"]);
-            //    for (int j = 0; j < 1000; j++)
+            //    connection.Open();
+            //    MySqlCommand selCom = new MySqlCommand($@"SELECT Id FROM Deparments WHERE DepName='Department_{i}'",connection);
+            //    MySqlDataReader reader = selCom.ExecuteReader();
+            //    reader.Read();
+            //    int curDepId = reader.GetInt32("Id");
+            //    connection.Close();
+            //    //var depID = dtDepartments.Select().Where((e) => e["DepName"].Equals($"Department_{i}")).Select((e) => e["Id"]);
+            //    Console.WriteLine($"ID добавленного департамента - {curDepId}");
+            //    for (int j = 0; j < 100; j++)
             //    {
             //        newRow = dtEmployee.NewRow();
-            //        newRow["name"] = $"Имя_{j}";
-            //        newRow["surname"] = $"Фамилия_{j}";
-            //        newRow["position"] = $"Должность_{j}";
+            //        newRow["name"] = $"Name_{j}";
+            //        newRow["surname"] = $"Surname_{j}";
+            //        newRow["position"] = $"Position_{j} Dep {i}";
             //        newRow["birthday"] = DateTime.Now;
-            //        newRow["depId"] = depID.First();
+            //        newRow["depId"] = curDepId;
             //        dtEmployee.Rows.Add(newRow);
-                    
+
             //    }
             //    adapterEmp.Update(dtEmployee);
             //}
 
-            
+
 
             employeeDataGrid.DataContext = dtEmployee.DefaultView;
             DepBox.ItemsSource = dtDepartments.DefaultView;
@@ -86,6 +115,7 @@ namespace DBEmployee
             EditDep.Click += EditDep_Click;
             AddEmp.Click += AddEmp_Click;
             EditEmp.Click += EditEmp_Click;
+            
         }
 
         private void EditEmp_Click(object sender, RoutedEventArgs e)
@@ -186,64 +216,64 @@ namespace DBEmployee
 
         public void InitDBDep()
         {
-            adapterDep = new SqlDataAdapter();
+            adapterDep = new MySqlDataAdapter();
 
-            SqlCommand command= new SqlCommand("SELECT Id, DepName FROM Deparments"
+            MySqlCommand command= new MySqlCommand("SELECT Id, DepName FROM Deparments"
                 , connection);
             adapterDep.SelectCommand = command;
 
-            command = new SqlCommand(@"INSERT INTO Deparments (DepName) VALUES (@DepName); SET @ID = @@IDENTITY;", connection);
-            command.Parameters.Add("@DepName", SqlDbType.NVarChar, 50, "DepName");
-            SqlParameter param = command.Parameters.Add("@Id", SqlDbType.Int, 0, "Id");
+            command = new MySqlCommand(@"INSERT INTO Deparments (DepName) VALUES (@DepName);", connection); // SET @ID = @@IDENTITY;
+            command.Parameters.Add("@DepName", MySqlDbType.VarChar, 50, "DepName");
+            MySqlParameter param = command.Parameters.Add("@Id", MySqlDbType.Int64, 0, "Id");
             param.Direction = ParameterDirection.Output;
             adapterDep.InsertCommand = command;
 
-            command = new SqlCommand(@"UPDATE Deparments SET DepName=@DepName WHERE Id=@Id", connection);
-            command.Parameters.Add("@DepName", SqlDbType.NVarChar, 50, "DepName");
-            param = command.Parameters.Add("@Id", SqlDbType.Int, 0, "Id");
+            command = new MySqlCommand(@"UPDATE Deparments SET DepName=@DepName WHERE Id=@Id", connection);
+            command.Parameters.Add("@DepName", MySqlDbType.VarChar, 50, "DepName");
+            param = command.Parameters.Add("@Id", MySqlDbType.Int64, 0, "Id");
             param.SourceVersion = DataRowVersion.Original;
             adapterDep.UpdateCommand = command;
 
-            command = new SqlCommand("DELETE FROM Deparments WHERE Id = @Id", connection);
-            param = command.Parameters.Add("@Id", SqlDbType.Int, 0, "Id");
+            command = new MySqlCommand("DELETE FROM Deparments WHERE Id = @Id", connection);
+            param = command.Parameters.Add("@Id", MySqlDbType.Int64, 0, "Id");
             param.SourceVersion = DataRowVersion.Original;
             adapterDep.DeleteCommand = command;
         }
         public void InitDBEmp()
         {
             
-            adapterEmp = new SqlDataAdapter();
+            adapterEmp = new MySqlDataAdapter();
 
-            commandSelect = new SqlCommand("SELECT Id, name, surname, position, birthday, depId FROM Employee WHERE depId=@depId"
+            commandSelect = new MySqlCommand("SELECT Id, name, surname, position, birthday, depId FROM Employee WHERE depId=@depId"
                 , connection);
             commandSelect.Parameters.AddWithValue("@depId", 0);
             adapterEmp.SelectCommand = commandSelect;
             
 
-            SqlCommand command = new SqlCommand(@"INSERT INTO Employee (name, surname, position, birthday,depId) 
-                VALUES (@name, @surname, @position, @birthday, @depId); SET @ID = @@IDENTITY;", connection);
-            command.Parameters.Add("@name", SqlDbType.NVarChar, 50, "name");
-            command.Parameters.Add("@surname", SqlDbType.NVarChar, 50, "surname");
-            command.Parameters.Add("@position", SqlDbType.NVarChar, 100, "position");
-            command.Parameters.Add("@birthday", SqlDbType.Date, 0, "birthday");
-            command.Parameters.Add("@depId", SqlDbType.Int, 0, "depId");
-            SqlParameter param = command.Parameters.Add("@Id", SqlDbType.Int, 0, "Id");
+            MySqlCommand command = new MySqlCommand(@"INSERT INTO Employee (name, surname, position, birthday,depId) 
+                VALUES (@name, @surname, @position, @birthday, @depId); ", connection); //SET @ID = @@IDENTITY;
+            command.Parameters.Add("@name", MySqlDbType.VarChar, 50, "name");
+            command.Parameters.Add("@surname", MySqlDbType.VarChar, 50, "surname");
+            command.Parameters.Add("@position", MySqlDbType.VarChar, 100, "position");
+            command.Parameters.Add("@birthday", MySqlDbType.Date, 0, "birthday");
+            command.Parameters.Add("@depId", MySqlDbType.Int64, 0, "depId");
+            MySqlParameter param = command.Parameters.Add("@Id", MySqlDbType.Int64, 0, "Id");
             param.Direction = ParameterDirection.Output;
             adapterEmp.InsertCommand = command;
 
-            command = new SqlCommand(@"UPDATE Employee SET name=@name, surname=@surname, position=@position, birthday=@birthday
+            command = new MySqlCommand(@"UPDATE Employee SET name=@name, surname=@surname, position=@position, birthday=@birthday
                 ,depId=@depID WHERE Id=@Id", connection);
-            command.Parameters.Add("@name", SqlDbType.NVarChar, 50, "name");
-            command.Parameters.Add("@surname", SqlDbType.NVarChar, 50, "surname");
-            command.Parameters.Add("@position", SqlDbType.NVarChar, 100, "position");
-            command.Parameters.Add("@birthday", SqlDbType.Date, 0, "birthday");
-            command.Parameters.Add("@depId", SqlDbType.Int, 0, "depId");
-            param = command.Parameters.Add("@Id", SqlDbType.Int, 0, "Id");
+            command.Parameters.Add("@name", MySqlDbType.VarChar, 50, "name");
+            command.Parameters.Add("@surname", MySqlDbType.VarChar, 50, "surname");
+            command.Parameters.Add("@position", MySqlDbType.VarChar, 100, "position");
+            command.Parameters.Add("@birthday", MySqlDbType.Date, 0, "birthday");
+            command.Parameters.Add("@depId", MySqlDbType.Int64, 0, "depId");
+            param = command.Parameters.Add("@Id", MySqlDbType.Int64, 0, "Id");
             param.SourceVersion = DataRowVersion.Original;
             adapterEmp.UpdateCommand = command;
 
-            command = new SqlCommand("DELETE FROM Employee WHERE Id = @Id", connection);
-            param = command.Parameters.Add("@Id", SqlDbType.Int, 0, "Id");
+            command = new MySqlCommand("DELETE FROM Employee WHERE Id = @Id", connection);
+            param = command.Parameters.Add("@Id", MySqlDbType.Int64, 0, "Id");
             param.SourceVersion = DataRowVersion.Original;
             adapterEmp.DeleteCommand = command;
         }
