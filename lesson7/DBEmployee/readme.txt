@@ -1,4 +1,5 @@
 ﻿1.Создать БД с именем lesson7_alebastr
+Поправить строку "AttachDBFilename = @"C:\Users\Алкесандр\Documents\lesson7_alebastr.mdf","
 
 2. Создать таблицы
 CREATE TABLE [dbo].[Deparments]

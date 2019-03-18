@@ -37,7 +37,7 @@ namespace DBEmployee
             {
                 DataSource = @"(LocalDB)\MSSQLLocalDB",
                 InitialCatalog= "lesson7_alebastr",
-                //AttachDBFilename = @"C:\Users\Алкесандр\Documents\lesson7_alebastr.mdf",
+                AttachDBFilename = @"C:\Users\Алкесандр\Documents\lesson7_alebastr.mdf",
                 IntegratedSecurity = true,
                 ConnectTimeout = 30,
                 Pooling=true
