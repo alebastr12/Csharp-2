@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace EmployeeDB
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<Department> ListOfDep;
+        ObservableCollection<Department> ListOfDep;
         int editIndex=-1;
         int editIndexDep = -1;
         //Binding bind;
@@ -28,7 +29,7 @@ namespace EmployeeDB
         public MainWindow()
         {
             InitializeComponent();
-            ListOfDep = new List<Department>();
+            ListOfDep = new ObservableCollection<Department>();
             ListOfDep.Add(new Department("Производственное управление"));
             ListOfDep.Add(new Department("ОКБ"));
             ListOfDep[0].Add(new Employee("Александр", "Бастраков", "Инженер", new DateTime(1988, 03, 09)));
@@ -112,14 +113,14 @@ namespace EmployeeDB
         /// <param name="e"></param>
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            int index = DepCombo.SelectedIndex;
+            //int index = DepCombo.SelectedIndex;
             ListOfDep.Add(new Department(DepText.Text));
             DepText.Clear();
-            DepCombo.ItemsSource = null;
-            DepComboEdit.ItemsSource = null;
-            DepCombo.ItemsSource = ListOfDep;
-            DepComboEdit.ItemsSource = ListOfDep;
-            DepCombo.SelectedIndex = index;
+            //DepCombo.ItemsSource = null;
+            //DepComboEdit.ItemsSource = null;
+            //DepCombo.ItemsSource = ListOfDep;
+            //DepComboEdit.ItemsSource = ListOfDep;
+            //DepCombo.SelectedIndex = index;
         }
         /// <summary>
         /// Очистка полей ввода
