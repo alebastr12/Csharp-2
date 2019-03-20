@@ -6,6 +6,7 @@
 //     Изменения, вносимые в этот файл вручную, будут перезаписаны при повторном создании кода.
 // </auto-generated>
 //------------------------------------------------------------------------------
+using AutoMapper;
 
 namespace WebApiEmployee
 {
@@ -15,9 +16,20 @@ namespace WebApiEmployee
     
     public partial class mydatabaseEntities : DbContext
     {
+        static mydatabaseEntities()
+        {
+            Mapper.Initialize(
+               cfg =>
+               {
+                   cfg.CreateMap<Deparments, Deparments>().ForMember(x => x.Employee, opt => opt.Ignore());
+                   cfg.CreateMap<Employee, Employee>().ForMember(e => e.Deparments, opt => opt.Ignore());
+               }
+               );
+        }
         public mydatabaseEntities()
             : base("name=mydatabaseEntities")
         {
+            
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
