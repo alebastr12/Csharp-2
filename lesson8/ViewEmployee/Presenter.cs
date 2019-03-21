@@ -42,16 +42,16 @@ namespace ViewEmployee
         }
         
         /// <summary>
-        /// 
+        /// Обработчик выбора департамента
         /// </summary>
         public void ChangeSelectedDep()
         {
             IMain.contextEmp = IMain.curDep?.Employee;
         }
         /// <summary>
-        /// 
+        /// Загрузка данных с веб сервиса
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Истина если успешно</returns>
         public bool Load()
         {
             HttpResponseMessage r = client.GetAsync(apiurl + "departments").Result;
@@ -69,12 +69,12 @@ namespace ViewEmployee
             return true;
         }
         /// <summary>
-        /// 
+        /// Отправляет запрос POST
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="Obj"></param>
-        /// <param name="req"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">тип</typeparam>
+        /// <param name="Obj">ссылка на объект для отправки (результирующий объект занесется ту да же в случае успеха)</param>
+        /// <param name="req">строка запроса к контроллеру</param>
+        /// <returns>Истина, если ошибок нет, иначе ложь</returns>
         protected bool post<T>(ref T Obj, string req)
         {
             string jsonObj = JsonConvert.SerializeObject(Obj);
@@ -89,12 +89,10 @@ namespace ViewEmployee
             return true;
         }
         /// <summary>
-        /// 
+        /// Отправляет запрос DELETE
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="Obj"></param>
-        /// <param name="req"></param>
-        /// <returns></returns>
+        /// <param name="req">Строка для запроса к контролллеру</param>
+        /// <returns>Истина, если ошибок нет, иначе ложь</returns>
         protected bool delete(string req, int id)
         {
             HttpResponseMessage r = client.DeleteAsync(apiurl+req+$"/{id}").Result;
@@ -106,7 +104,7 @@ namespace ViewEmployee
             return true;
         }
         /// <summary>
-        /// 
+        /// Обработчик добавления сотрудника
         /// </summary>
         public void AddEmployee()
         {
@@ -133,7 +131,7 @@ namespace ViewEmployee
             }
         }
         /// <summary>
-        /// 
+        /// Обработчик удаления сотрудника
         /// </summary>
         public void deleteEmployee()
         {
@@ -145,7 +143,7 @@ namespace ViewEmployee
             }
         }
         /// <summary>
-        /// 
+        /// Обработчик редактирования сотрудника
         /// </summary>
         public void EditEmployee()
         {
@@ -179,7 +177,7 @@ namespace ViewEmployee
             }
         }
         /// <summary>
-        /// 
+        /// Удаление департамента
         /// </summary>
         public void deleteDepartments()
         {
@@ -191,7 +189,7 @@ namespace ViewEmployee
             }
         }
         /// <summary>
-        /// 
+        /// Редактирование департамента
         /// </summary>
         public void EditDepartments()
         {
@@ -214,7 +212,7 @@ namespace ViewEmployee
             }
         }
         /// <summary>
-        /// 
+        /// Добавление департамента
         /// </summary>
         public void AddDepartments()
         {
