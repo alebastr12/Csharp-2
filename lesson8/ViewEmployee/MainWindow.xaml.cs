@@ -27,11 +27,18 @@ namespace ViewEmployee
             InitializeComponent();
             p = new Presenter(this);
             DepBox.SelectionChanged += delegate { p.ChangeSelectedDep(); };
+            AddEmp.Click += delegate { p.AddEmployee(); };
+            AddDep.Click += delegate { p.AddDepartments(); };
+            EditEmp.Click += delegate { p.EditEmployee(); };
+            EditDep.Click += delegate { p.EditDepartments(); };
+            DelDep.Click += delegate { p.deleteDepartments(); };
+            DelEmp.Click += delegate { p.deleteEmployee(); };
+            Reload.Click += delegate { p.Load(); };
         }
 
-        public Employee curEmp => employeeDataGrid.SelectedItem as Employee;
+        public Employee curEmp { get => employeeDataGrid.SelectedItem as Employee; set => employeeDataGrid.SelectedItem = value; }
 
-        public Deparments curDep => DepBox.SelectedItem as Deparments;
+        public Deparments curDep {get=>DepBox.SelectedItem as Deparments; set=>DepBox.SelectedItem=value;}
 
         ObservableCollection<Deparments> IViewMain.contextDep { set => DepBox.ItemsSource=value; }
         ObservableCollection<Employee> IViewMain.contextEmp { set => employeeDataGrid.DataContext=value; }

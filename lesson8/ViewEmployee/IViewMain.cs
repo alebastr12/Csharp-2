@@ -9,8 +9,8 @@ namespace ViewEmployee
 {
     interface IViewMain
     {
-        Employee curEmp { get; }
-        Deparments curDep { get; }
+        Employee curEmp { get; set; }
+        Deparments curDep { get; set; }
         ObservableCollection<Deparments> contextDep { set; }
         ObservableCollection<Employee> contextEmp { set; }
     }

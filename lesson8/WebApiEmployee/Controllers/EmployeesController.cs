@@ -116,6 +116,37 @@ namespace WebApiEmployee.Controllers
             //return CreatedAtRoute("DefaultApi", new { id = employee.Id }, Mapper.Map<Employee, Employee>(employee));
         }
 
+        // POST: editEmployees
+        [Route("editemployee/{id}")]
+        [ResponseType(typeof(Employee))]
+        public HttpResponseMessage PostEditEmployee(int id, Employee employee)
+        {
+            Employee curEmployee = db.Employee.Find(id);
+            if (curEmployee == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+            try
+            {
+                curEmployee.name=employee.name;
+                curEmployee.surname = employee.surname;
+                curEmployee.position = employee.position;
+                curEmployee.birthday = employee.birthday;
+                curEmployee.depId = employee.depId;
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, e.Message);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.Created, Mapper.Map<Employee, Employee>(curEmployee));
+        }
+
         // DELETE: deleteEmployees/5
         [Route("deleteemployee/{id}")]
         [ResponseType(typeof(Employee))]

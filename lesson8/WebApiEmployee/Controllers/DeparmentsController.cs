@@ -99,6 +99,33 @@ namespace WebApiEmployee.Controllers
             return Created("Employees DB", Mapper.Map<Deparments, Deparments>(deparments));
         }
 
+        // POST: editDeparments/5
+        [Route("editdepartment/{id}")]
+        [ResponseType(typeof(Deparments))]
+        public IHttpActionResult PostDeparments(int id,Deparments deparments)
+        {
+            Deparments curDep = db.Deparments.Find(id);
+            if (curDep == null)
+            {
+                return NotFound();
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+
+            try
+            {
+                curDep.DepName = deparments.DepName;
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            return Created("Employees DB", Mapper.Map<Deparments, Deparments>(curDep));
+        }
         // DELETE: deleteDeparments/5
         [Route("deletedepartments/{id}")]
         [ResponseType(typeof(Deparments))]

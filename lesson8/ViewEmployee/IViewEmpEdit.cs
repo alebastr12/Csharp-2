@@ -13,7 +13,7 @@ namespace ViewEmployee
         string NameEmp { get; set; }
         string SurameEmp { get; set; }
         string PositionEmp { get; set; }
-        string BirthdayEmp { get; set; }
+        DateTime BirthdayEmp { get; set; }
         ObservableCollection<Deparments> depsList { set; }
         Deparments selectDep { get; set; }
 
