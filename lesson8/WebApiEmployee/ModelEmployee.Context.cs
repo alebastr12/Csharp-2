@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 using AutoMapper;
-
+using System.Data.Entity.Infrastructure.Interception;
 namespace WebApiEmployee
 {
     using System;
@@ -16,6 +16,7 @@ namespace WebApiEmployee
     
     public partial class mydatabaseEntities : DbContext
     {
+        //static readonly DatabaseLogger databaseLogger = new DatabaseLogger(@"c:/cfn/log/mysql.log", true);
         static mydatabaseEntities()
         {
             Mapper.Initialize(
@@ -25,6 +26,8 @@ namespace WebApiEmployee
                    cfg.CreateMap<Employee, Employee>().ForMember(e => e.Deparments, opt => opt.Ignore());
                }
                );
+            //databaseLogger.StartLogging();
+            //DbInterception.Add(databaseLogger);
         }
         public mydatabaseEntities()
             : base("name=mydatabaseEntities")
@@ -39,5 +42,12 @@ namespace WebApiEmployee
     
         public virtual DbSet<Deparments> Deparments { get; set; }
         public virtual DbSet<Employee> Employee { get; set; }
+
+        protected override void Dispose(bool disposing)
+        {
+            //DbInterception.Remove(databaseLogger);
+            //databaseLogger.StopLogging();
+            base.Dispose(disposing);
+        }
     }
 }

@@ -21,7 +21,8 @@ namespace ViewEmployee
         IViewEmpEdit IEmp;
         ObservableCollection<Deparments> db;
         HttpClient client;
-        string apiurl = @"http://localhost:63459/";
+        string apiurl = @"https://webapiemployee20190321121459.azurewebsites.net/";
+        //string apiurl = @"http://localhost:63459/";
 
         public string ErrorString { get; set; }
 
